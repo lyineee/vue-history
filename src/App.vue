@@ -1,29 +1,32 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <v-app>
+    <AppBar v-model="searchList"  @logout="loginDialog = true" @edit="appBar.edit = $event"/>
+    <v-content>
+      <LoginDialog v-model="loginDialog"/>
+      <HistoryGroup :search="searchList" />
+    </v-content>
+  </v-app>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import HistoryGroup from "./components/HistoryGroup.vue";
+import LoginDialog from "./components/LoginDialog.vue";
+import AppBar from "./components/AppBar.vue";
+import { Vue, Component, Provide } from "vue-property-decorator";
 
 @Component({
-  components: {
-    HelloWorld,
-  },
+  components: { HistoryGroup, LoginDialog, AppBar },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  searchList = [];
+  loginDialog = false;
+  // onEditChange(event:boolean){
+    
+  // }
+  @Provide() appBar = {edit:false}
+}
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
 </style>

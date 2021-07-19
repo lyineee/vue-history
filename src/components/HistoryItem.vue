@@ -80,7 +80,7 @@ export default class HistoryItem extends Vue {
   loading = false;
   get modifiedTime(): string {
     let date = new Date(this.item.lastModified);
-    return date.toISOString().slice(0, 19).replace(/T/g, " ");
+    return date.toLocaleString()
   }
   openUrl() {
     window.open(this.item.url, "_blank");

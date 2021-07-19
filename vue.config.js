@@ -2,5 +2,7 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
-  publicPath:"/history"
+  publicPath: process.env.NODE_ENV === 'production'
+  ? '/history/'
+  : '/'
 }

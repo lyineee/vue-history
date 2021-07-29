@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app>
     <v-app-bar-title>记录</v-app-bar-title>
     <v-container>
       <v-row>

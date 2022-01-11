@@ -3,6 +3,6 @@ $composeFilePath = "~/dev/"
 $fileList = "./dist/*"
 yarn build
 foreach ($item in $fileList) {
-    scp -r $item server2:$remotePath;
+    scp -r $item server:$remotePath;
 }
-ssh server2 docker exec nginx nginx -s reload
+ssh server docker exec nginx nginx -s reload

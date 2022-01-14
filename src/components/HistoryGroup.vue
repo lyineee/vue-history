@@ -44,7 +44,6 @@ export default class HistoryGroup extends Vue {
     let clear = true;
     let end = false;
     let debounceSearchHistory = _.debounce(() => {
-      console.log(this.onProcess);
       if (end || this.onProcess) {
         return;
       }
@@ -76,7 +75,6 @@ export default class HistoryGroup extends Vue {
   }
   created() {
     this.$root.$on("login", () => {
-      console.log("login");
       this.historyGenerator = this.getHistoryGenerator(10);
       this.historyGenerator();
     });

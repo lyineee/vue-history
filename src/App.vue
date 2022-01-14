@@ -1,12 +1,10 @@
 <template>
   <v-app>
-    <AppBar
-      v-model="searchList"
-    />
-    <v-content>
-      <LoginDialog v-model="loginDialog" />
-      <HistoryGroup :search="searchList" />
-    </v-content>
+    <AppBar />
+    <v-main>
+      <LoginDialog />
+      <HistoryGroup />
+    </v-main>
   </v-app>
 </template>
 
@@ -14,21 +12,15 @@
 import HistoryGroup from "./components/HistoryGroup.vue";
 import LoginDialog from "./components/LoginDialog.vue";
 import AppBar from "./components/AppBar.vue";
-import { Vue, Component, Provide, Watch } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 
 @Component({
   components: { HistoryGroup, LoginDialog, AppBar },
 })
 export default class App extends Vue {
-  searchList = [];
-  loginDialog = false;
-  // onEditChange(event:boolean){
-
-  // }
   colorScheme!: string;
   @Watch("colorScheme")
   onColorSchemeChange(val: string, old: string) {
-    console.log("in", this.colorScheme);
     switch (this.colorScheme) {
       case "dark":
         this.$vuetify.theme.dark = true;
@@ -41,9 +33,7 @@ export default class App extends Vue {
         break;
     }
   }
-  @Provide() appBar = { edit: false };
   mounted() {
-    console.log("on mounted hook");
     if (
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches

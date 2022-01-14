@@ -59,14 +59,7 @@
 <script  lang="ts">
 import { environment } from "@/environments/environment";
 import axios from "axios";
-import {
-  Vue,
-  Component,
-  Watch,
-  VModel,
-  Emit,
-  Ref,
-} from "vue-property-decorator";
+import { Vue, Component, Watch, Ref } from "vue-property-decorator";
 @Component
 export default class AppBar extends Vue {
   @Ref() searchBox!: any;
@@ -84,7 +77,6 @@ export default class AppBar extends Vue {
         this.loading = false;
       });
   }
-  // @VModel({ type: Array }) searchList!: Array<string>;
   searchList: Array<string> = [];
   @Watch("searchList") onSearchListChange(list: Array<string>) {
     this.$root.$emit("onSearchListChange", list);
@@ -105,7 +97,7 @@ export default class AppBar extends Vue {
     }
   }
   logout() {
-    this.$root.$emit("logout")
+    this.$root.$emit("logout");
   }
   allTags = [];
   search = null;

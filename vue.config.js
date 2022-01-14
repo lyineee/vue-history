@@ -5,6 +5,9 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
     ? '/history/'
     : '/',
+  devServer:{
+    before: require('./mock/index'),
+  },
   chainWebpack: config => {
     config
       .plugin('html')

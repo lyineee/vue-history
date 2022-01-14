@@ -1,0 +1,15 @@
+{
+    "current_page": "@natural()",
+    "id": "@id()",
+    "lastModified": "@date('yyyy-MM-dd HH:mm:ss')",
+    "tag": [
+        "@first",
+        "@first",
+        "@first",
+        "@first",
+        "@first",
+        "@first"
+    ],
+    "title": "@ctitle",
+    "url": "@url()"
+}

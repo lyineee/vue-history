@@ -4,7 +4,7 @@
     <v-container>
       <v-row>
         <v-spacer />
-        <v-col cols="12"  sm="8" md="6">
+        <v-col cols="12" sm="8" md="6">
           <v-combobox
             ref="searchBox"
             v-model="searchList"
@@ -84,12 +84,15 @@ export default class AppBar extends Vue {
         this.loading = false;
       });
   }
-  @VModel({ type: Array }) searchList!: Array<string>;
+  // @VModel({ type: Array }) searchList!: Array<string>;
+  searchList: Array<string> = [];
+  @Watch("searchList") onSearchListChange(list: Array<string>) {
+    this.$root.$emit("onSearchListChange", list);
+  }
   edit = false;
-  @Emit("edit")
   toggleEdit() {
     this.edit = !this.edit;
-    return this.edit;
+    this.$root.$emit("onEditStateChange", this.edit);
   }
   isMobile() {
     switch (this.$vuetify.breakpoint.name) {
@@ -102,9 +105,7 @@ export default class AppBar extends Vue {
     }
   }
   logout() {
-    localStorage.removeItem("user");
-    localStorage.removeItem("accessToken");
-    this.$emit("logout");
+    this.$root.$emit("logout")
   }
   allTags = [];
   search = null;

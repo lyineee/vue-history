@@ -2,8 +2,6 @@
   <v-app>
     <AppBar
       v-model="searchList"
-      @logout="loginDialog = true"
-      @edit="appBar.edit = $event"
     />
     <v-content>
       <LoginDialog v-model="loginDialog" />

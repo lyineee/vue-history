@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-row justify="center"> -->
   <v-dialog v-model="dialog" persistent max-width="290">
     <v-card :loading="loading">
       <template slot="progress">
@@ -61,13 +60,6 @@ import { Vue, Component, VModel, Watch } from "vue-property-decorator";
 @Component
 export default class LoginDialog extends Vue {
   dialog = false;
-  @VModel() showDialog!: boolean;
-  @Watch("showDialog")
-  onChangeDialog(val: boolean) {
-    if (val) {
-      this.dialog = true;
-    }
-  }
   showPassword = false;
   loading = false;
   username = "";
@@ -91,8 +83,8 @@ export default class LoginDialog extends Vue {
     },
   };
   login() {
-    if(!this.valid){
-      return
+    if (!this.valid) {
+      return;
     }
     this.loading = true;
     axios
@@ -104,7 +96,8 @@ export default class LoginDialog extends Vue {
         localStorage.setItem("user", JSON.stringify(resp.data));
         localStorage.setItem("accessToken", resp.data["access_token"]);
         this.dialog = false;
-        this.showDialog = false;
+        this.setToken(resp.data["access_token"]);
+        this.$root.$emit("login");
       })
       .catch((err) => {
         console.error(err);
@@ -119,7 +112,24 @@ export default class LoginDialog extends Vue {
       return config;
     });
   }
+
+  revokeToken() {
+    axios.interceptors.request.use((config) => {
+      config.headers = {
+        Authorization: "",
+      };
+      return config;
+    });
+  }
+
   created() {
+    this.$root.$on("logout", () => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("accessToken");
+      this.revokeToken();
+      this.dialog = true;
+    });
+
     console.log("Try to grab user token.");
     let token = localStorage.getItem("accessToken");
     if (token == null) {

@@ -47,19 +47,22 @@
 <script lang="ts">
 import { environment } from "@/environments/environment";
 import axios from "axios";
-import { Vue, Component, Watch, Prop, Inject, Ref } from "vue-property-decorator";
+import {
+  Vue,
+  Component,
+  Watch,
+  Prop,
+  Inject,
+  Ref,
+} from "vue-property-decorator";
 
 @Component
 export default class HistoryItem extends Vue {
   // @Prop() edit = true;
-  @Ref() tagBox!:any
+  @Ref() tagBox!: any;
   @Prop() item: any;
-  @Inject() readonly appBar !: any
+  @Inject() readonly appBar!: any;
   edit = false;
-  @Watch("appBar",{deep:true})
-  onAppBarDataChange(){
-    this.edit = this.appBar.edit
-  }
   @Watch("search") onSearchChanged(val: string) {
     this.loading = true;
     axios
@@ -80,7 +83,7 @@ export default class HistoryItem extends Vue {
   loading = false;
   get modifiedTime(): string {
     let date = new Date(this.item.lastModified);
-    return date.toLocaleString()
+    return date.toLocaleString();
   }
   openUrl() {
     window.open(this.item.url, "_blank");
@@ -104,11 +107,9 @@ export default class HistoryItem extends Vue {
         }
       };
     })();
-    // window.addEventListener("keydown", (event)=>{
-    //   if(event.key == "/" && this.tagBox.isFocused == true){
-    //     event.stopPropagation()
-    //   }
-    // });
+    this.$root.$on("onEditStateChange", (editState: boolean) => {
+      this.edit = editState;
+    });
   }
 }
 </script>

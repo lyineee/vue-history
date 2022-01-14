@@ -24,22 +24,12 @@ import * as _ from "lodash";
   components: { HistoryItem },
 })
 export default class HistoryGroup extends Vue {
-  // item = {
-  //   title: "test title asdfsfasf[asfafsda]fasfdsafdsafsajflkjsaljkjljs",
-  //   tags: ["tag1", "tag2"],
-  //   url: "https://bbs.nga.cn/read.php?tid=24740201&page=222",
-  //   lastModified: "2021-02-18T11:28:39.522+00:00",
-  //   current_page: 222,
-  // };
   loadingMsg = "";
-  @Prop() search!: Array<string>;
-  @Watch("search")
-  onSearchChange(val: Array<string>) {
-    this.historyGenerator = this.getHistoryGenerator(5, this.search.join(" "));
-    this.historyGenerator();
-  }
-  onIntersect() {
-    if (this.items) {
+  onIntersect(entries: Array<IntersectionObserverEntry>) {
+    if (!entries[0].isIntersecting) {
+      return;
+    }
+    if (this.historyGenerator) {
       this.historyGenerator();
     } else {
       console.log("no items");
@@ -48,15 +38,18 @@ export default class HistoryGroup extends Vue {
   items = [];
   historyGenerator: any;
   debounceSearchHistory: any;
+  onProcess = false; // prevent multirequest in same time
   getHistoryGenerator(limit = 20, searchString = "", skip = 0) {
     let page = Math.floor(skip / limit);
     let clear = true;
     let end = false;
     let debounceSearchHistory = _.debounce(() => {
-      if (end) {
+      console.log(this.onProcess);
+      if (end || this.onProcess) {
         return;
       }
-      this.loadingMsg = ""
+      this.onProcess = true;
+      this.loadingMsg = "";
       axios
         .get(
           `${environment.apiUrl}/history/user?limit=${limit}&skip=${
@@ -65,7 +58,7 @@ export default class HistoryGroup extends Vue {
         )
         .then((resp) => {
           if (resp.data.length == 0) {
-            end = true
+            end = true;
             this.loadingMsg = "到底了";
           }
           this.items = clear ? resp.data : this.items.concat(resp.data);
@@ -74,11 +67,30 @@ export default class HistoryGroup extends Vue {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          this.onProcess = false;
         });
     }, 500);
     return debounceSearchHistory;
   }
   created() {
+    this.$root.$on("login", () => {
+      console.log("login");
+      this.historyGenerator = this.getHistoryGenerator(10);
+      this.historyGenerator();
+    });
+
+    this.$root.$on("logout", () => {
+      this.historyGenerator = null;
+      this.items = [];
+    });
+
+    this.$root.$on("onSearchListChange", (search: Array<string>) => {
+      this.historyGenerator = this.getHistoryGenerator(5, search.join(" "));
+      this.historyGenerator();
+    });
+
     this.historyGenerator = this.getHistoryGenerator(20);
     this.historyGenerator();
   }

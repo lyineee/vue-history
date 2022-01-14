@@ -118,7 +118,7 @@ export default class HistoryItem extends Vue {
         )}`
       )
       .then(() => {
-        console.log("success");
+        this.$root.$emit("message", "上传成功");
       })
       .catch((err) => {
         console.log(err);

@@ -165,8 +165,10 @@ export default class HistoryItem extends Vue {
 }
 .upload-textbox {
   margin: 0px 20px;
-  max-width: 0%;
 }
+/* .upload-textbox-collapse {
+  max-width: 0%;
+} */
 .action-open-btn {
   width: 100%;
 }

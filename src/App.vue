@@ -5,6 +5,7 @@
       <LoginDialog />
       <HistoryGroup />
       <MessageSnackBar />
+      <AddHistoryBtn />
     </v-main>
   </v-app>
 </template>
@@ -14,10 +15,11 @@ import HistoryGroup from "./components/HistoryGroup.vue";
 import LoginDialog from "./components/LoginDialog.vue";
 import AppBar from "./components/AppBar.vue";
 import MessageSnackBar from "./components/MessageSnackBar.vue";
+import AddHistoryBtn from "./components/AddHistoryBtn.vue"
 import { Vue, Component, Watch } from "vue-property-decorator";
 
 @Component({
-  components: { HistoryGroup, LoginDialog, AppBar, MessageSnackBar },
+  components: { HistoryGroup, LoginDialog, AppBar, MessageSnackBar, AddHistoryBtn },
 })
 export default class App extends Vue {
   colorScheme!: string;

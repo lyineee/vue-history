@@ -89,6 +89,7 @@ export default class HistoryItem extends Vue {
       })
       .catch((err) => {
         console.log(err);
+        this.$root.$emit("message", err.response?.data.message);
       })
       .finally(() => {
         this.loading = false;
@@ -122,6 +123,7 @@ export default class HistoryItem extends Vue {
       })
       .catch((err) => {
         console.log(err);
+        this.$root.$emit("message", err.response?.data.message);
       })
       .finally(() => {
         this.btnLoading = false;
@@ -142,6 +144,7 @@ export default class HistoryItem extends Vue {
             .then()
             .catch((err) => {
               console.log(err);
+              this.$root.$emit("message", err.response?.data.message);
             });
         }
       };

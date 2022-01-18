@@ -58,7 +58,7 @@
 
 <script  lang="ts">
 import { environment } from "@/environments/environment";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Vue, Component, Watch, Ref } from "vue-property-decorator";
 @Component
 export default class AppBar extends Vue {
@@ -70,8 +70,9 @@ export default class AppBar extends Vue {
       .then((resp) => {
         this.allTags = resp.data;
       })
-      .catch((err) => {
+      .catch((err:AxiosError) => {
         console.log(err);
+        this.$root.$emit("message", err.response?.data.message);
       })
       .finally(() => {
         this.loading = false;

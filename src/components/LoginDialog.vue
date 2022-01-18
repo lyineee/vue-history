@@ -101,6 +101,7 @@ export default class LoginDialog extends Vue {
       })
       .catch((err) => {
         console.error(err);
+        this.$root.$emit("message", err.response?.data.message);
       })
       .finally(() => (this.loading = false));
   }
@@ -158,6 +159,7 @@ export default class LoginDialog extends Vue {
       .then()
       .catch((err) => {
         console.log(err);
+        this.$root.$emit("message", err.response?.data.message);
       });
   }
 }

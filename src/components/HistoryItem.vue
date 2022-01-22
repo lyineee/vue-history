@@ -1,5 +1,26 @@
 <template>
-  <v-card class="mx-auto" max-width="800px" elevation="5">
+  <v-card
+    class="mx-auto"
+    max-width="800px"
+    elevation="5"
+    @contextmenu="showEditMenu"
+  >
+    <v-menu
+      v-model="showMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+    >
+      <v-list class="py-0">
+        <v-list-item transition="fade-transition" @click="toggleEdit()">
+          <v-list-item-title>{{
+            edit ? "退出编辑" : "编辑"
+          }}</v-list-item-title>
+          <v-icon right>edit</v-icon>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <v-card-title class="text-h5 his-title">
       {{ item.title }}
     </v-card-title>
@@ -40,17 +61,12 @@
       </v-combobox>
     </v-expand-transition>
     <v-card-actions class="card-action">
-      <!-- <v-expand-x-transition> -->
-      <!-- <div> -->
       <v-text-field
         :loading="btnLoading"
         clearable
         class="upload-textbox"
         v-model="updateUrl"
       ></v-text-field>
-      <!-- </div> -->
-      <!-- </v-expand-x-transition> -->
-      <!-- <v-expand-x-transition> -->
       <v-btn
         :loading="btnLoading"
         :class="edit ? 'action-upload-btn' : 'action-open-btn'"
@@ -100,14 +116,31 @@ export default class HistoryItem extends Vue {
   allTags = [];
   search = null;
 
+  showMenu = false;
+  x = 0;
+  y = 0;
+
   loading = false;
   btnLoading = false;
   get modifiedTime(): string {
     let date = new Date(this.item.lastModified);
     return date.toLocaleString();
   }
+  showEditMenu(e: MouseEvent) {
+    e.preventDefault();
+    this.showMenu = false;
+    this.x = e.clientX;
+    this.y = e.clientY;
+    this.$nextTick(() => {
+      this.showMenu = true;
+    });
+  }
   openUrl() {
     window.open(this.item.url, "_blank");
+  }
+
+  toggleEdit() {
+    this.edit = !this.edit;
   }
 
   updatePage() {

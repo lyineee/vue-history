@@ -6,6 +6,7 @@
         class="new-history mx-2"
         fab
         dark
+        :small="isMobile()"
         :autofocus="true"
         v-bind="attrs"
         v-on="on"
@@ -61,7 +62,7 @@ export default class AddHistoryBtn extends Vue {
       )
       .then(() => {
         this.$root.$emit("message", "添加成功");
-        this.updateUrl = ""
+        this.updateUrl = "";
         this.dialog = false;
       })
       .catch((err: AxiosError) => {
@@ -71,6 +72,14 @@ export default class AddHistoryBtn extends Vue {
       .finally(() => {
         this.btnLoading = false;
       });
+  }
+  isMobile() {
+    switch (this.$vuetify.breakpoint.name) {
+      case "xs":
+        return true;
+      default:
+        return false;
+    }
   }
 }
 </script>

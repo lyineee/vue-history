@@ -17,7 +17,7 @@
     </template>
 
     <v-card>
-      <v-card-title class="text-h5 grey lighten-2"> 输入链接 </v-card-title>
+      <v-card-title class="text-h5 grey"> 输入链接 </v-card-title>
 
       <v-text-field
         :loading="btnLoading"

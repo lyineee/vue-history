@@ -26,7 +26,11 @@
     </v-card-title>
     <v-card-subtitle>
       {{ modifiedTime }}
-      <span class="float-right">上次看到: {{ item.current_page }}页</span>
+      <span class="float-right"
+        >上次看到: {{ item.current_page }}/{{
+          item.total_page ? item.total_page : "-"
+        }}页</span
+      >
     </v-card-subtitle>
     <v-expand-transition>
       <v-combobox

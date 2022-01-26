@@ -19,9 +19,13 @@
           }}</v-list-item-title>
           <v-icon right>edit</v-icon>
         </v-list-item>
-        <v-list-item transition="fade-transition" @click="deleteHistory()">
-          <v-list-item-title> 删除记录 </v-list-item-title>
-          <v-icon right>delete</v-icon>
+        <v-list-item
+          class="error-color"
+          transition="fade-transition"
+          @click="deleteDialog = true"
+        >
+          <v-list-item-title class="error-text"> 删除记录 </v-list-item-title>
+          <v-icon right color="white">delete</v-icon>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -89,8 +93,8 @@
           <span v-if="edit" style="position: absolute"> 确认</span>
         </v-scroll-y-transition>
       </v-btn>
-      <!-- </v-expand-x-transition> -->
     </v-card-actions>
+    <DeleteConfirmDialog v-model="deleteDialog" @confirm="deleteHistory()"/>
   </v-card>
 </template>
 
@@ -98,8 +102,11 @@
 import { environment } from "@/environments/environment";
 import axios from "axios";
 import { Vue, Component, Watch, Prop, Ref } from "vue-property-decorator";
+import DeleteConfirmDialog from "./DeleteConfirmDialog.vue";
 
-@Component
+@Component({
+  components: { DeleteConfirmDialog },
+})
 export default class HistoryItem extends Vue {
   @Ref() tagBox!: any;
   @Prop() item: any;
@@ -137,6 +144,8 @@ export default class HistoryItem extends Vue {
     }
     return "";
   }
+
+  deleteDialog = false;
   showEditMenu(e: MouseEvent) {
     e.preventDefault();
     this.showMenu = false;
@@ -231,9 +240,6 @@ export default class HistoryItem extends Vue {
 .upload-textbox {
   margin: 0px 20px;
 }
-/* .upload-textbox-collapse {
-  max-width: 0%;
-} */
 .action-open-btn {
   width: 100%;
 }
@@ -242,5 +248,12 @@ export default class HistoryItem extends Vue {
 }
 button.action-btn {
   transition: width 0.3s;
+}
+.error-color {
+  /* color: red; */
+  background-color: #ff5252;
+}
+.error-text {
+  color: white;
 }
 </style>

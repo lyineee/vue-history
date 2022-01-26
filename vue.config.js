@@ -1,3 +1,4 @@
+const webpack = require("webpack")
 module.exports = {
   transpileDependencies: [
     'vuetify'
@@ -5,7 +6,7 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
     ? './'
     : './',
-  devServer:{
+  devServer: {
     before: require('./mock/index'),
   },
   chainWebpack: config => {
@@ -15,5 +16,13 @@ module.exports = {
         args[0].title = "历史记录";
         return args
       })
+    if (process.env.NODE_ENV == "production") {
+      config
+        .plugin('replace')
+        .use(new webpack.NormalModuleReplacementPlugin(
+          /environment\.ts/,
+          'environment.prod.ts'
+        ))
+    }
   }
 }

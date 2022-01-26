@@ -1,5 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: "https://api.lyine.pw"
-  };
-  
+  production: true,
+  apiUrl: "https://api.lyine.pw"
+}

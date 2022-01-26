@@ -19,6 +19,10 @@
           }}</v-list-item-title>
           <v-icon right>edit</v-icon>
         </v-list-item>
+        <v-list-item transition="fade-transition" @click="deleteHistory()">
+          <v-list-item-title> 删除记录 </v-list-item-title>
+          <v-icon right>delete</v-icon>
+        </v-list-item>
       </v-list>
     </v-menu>
     <v-card-title class="text-h5 his-title">
@@ -127,8 +131,11 @@ export default class HistoryItem extends Vue {
   loading = false;
   btnLoading = false;
   get modifiedTime(): string {
-    let date = new Date(this.item.lastModified);
-    return date.toLocaleString();
+    if (this.item.lastModified) {
+      let date = new Date(this.item.lastModified);
+      return date.toLocaleString();
+    }
+    return "";
   }
   showEditMenu(e: MouseEvent) {
     e.preventDefault();
@@ -157,6 +164,7 @@ export default class HistoryItem extends Vue {
       )
       .then(() => {
         this.$root.$emit("message", "上传成功");
+        this.$emit("update");
       })
       .catch((err) => {
         console.log(err);
@@ -164,6 +172,23 @@ export default class HistoryItem extends Vue {
       })
       .finally(() => {
         this.btnLoading = false;
+      });
+  }
+
+  deleteHistory() {
+    this.loading = true;
+    axios
+      .delete(`${environment.apiUrl}/history/${this.item.id}`)
+      .then(() => {
+        this.$root.$emit("message", "删除成功");
+        this.$emit("delete");
+      })
+      .catch((err) => {
+        console.log(err);
+        this.$root.$emit("message", err.response?.data.message);
+      })
+      .finally(() => {
+        this.loading = false;
       });
   }
 

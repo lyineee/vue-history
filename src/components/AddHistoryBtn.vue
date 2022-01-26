@@ -41,7 +41,7 @@
 <script  lang="ts">
 import { environment } from "@/environments/environment";
 import axios, { AxiosError } from "axios";
-import { Vue, Component, Watch, Ref } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
 @Component
 export default class AddHistoryBtn extends Vue {
   dialog = false;
@@ -64,6 +64,9 @@ export default class AddHistoryBtn extends Vue {
         this.$root.$emit("message", "添加成功");
         this.updateUrl = "";
         this.dialog = false;
+        setTimeout(() => {
+          this.$emit("new");
+        }, 3000);
       })
       .catch((err: AxiosError) => {
         console.log(err);

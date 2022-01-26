@@ -19,6 +19,10 @@
           }}</v-list-item-title>
           <v-icon right>edit</v-icon>
         </v-list-item>
+        <v-list-item transition="fade-transition" @click="refresh()">
+          <v-list-item-title> 刷新 </v-list-item-title>
+          <v-icon right>refresh</v-icon>
+        </v-list-item>
         <v-list-item
           class="error-color"
           transition="fade-transition"
@@ -94,7 +98,7 @@
         </v-scroll-y-transition>
       </v-btn>
     </v-card-actions>
-    <DeleteConfirmDialog v-model="deleteDialog" @confirm="deleteHistory()"/>
+    <DeleteConfirmDialog v-model="deleteDialog" @confirm="deleteHistory()" />
   </v-card>
 </template>
 
@@ -161,6 +165,9 @@ export default class HistoryItem extends Vue {
 
   toggleEdit() {
     this.edit = !this.edit;
+  }
+  refresh() {
+    this.$emit("update");
   }
 
   updatePage() {

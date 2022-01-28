@@ -180,6 +180,7 @@ export default class HistoryItem extends Vue {
       )
       .then(() => {
         this.$root.$emit("message", "上传成功");
+        this.edit = false;
         this.$emit("update");
       })
       .catch((err) => {

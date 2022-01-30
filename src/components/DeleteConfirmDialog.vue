@@ -9,7 +9,7 @@
           <v-btn color="primary darken-1" text @click="deleteDialog = false">
             取消
           </v-btn>
-          <v-btn color="error" text @click="emit('confirm')">
+          <v-btn color="error" text @click="$emit('confirm')">
             删除
           </v-btn>
         </v-card-actions>

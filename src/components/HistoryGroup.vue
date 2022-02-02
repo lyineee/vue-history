@@ -12,7 +12,14 @@
       </v-row>
     </v-scale-transition>
     <div v-intersect="onIntersect" class="text-h7 text-center mt-3">
-      {{ loadingMsg == "" ? "加载中..." : loadingMsg }}
+      <div v-if="loadingMsg != ''">
+        {{ loadingMsg }}
+      </div>
+      <v-progress-circular
+        v-if="loadingMsg == '' && loadingMsg != '到底了'"
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
     </div>
     <AddHistoryBtn @new="newHistory()" />
   </v-container>

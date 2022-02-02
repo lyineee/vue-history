@@ -220,13 +220,13 @@ export default class HistoryItem extends Vue {
       this.isIntersecting != entries[0].isIntersecting &&
       entries[0].isIntersecting == true
     ) {
-      console.debug("start auto refresh: ", this.item.title);
+      //console.debug("start auto refresh: ", this.item.title);
       this.refreshIntervalId = setInterval(() => {
         this.$emit("update");
       }, 1000 * 10); // refresh every 10 second
     }
     if (!entries[0].isIntersecting && this.refreshIntervalId) {
-      console.debug("stop auto refresh: ", this.item.title);
+      //console.debug("stop auto refresh: ", this.item.title);
       clearInterval(this.refreshIntervalId);
     }
     this.isIntersecting = entries[0].isIntersecting;

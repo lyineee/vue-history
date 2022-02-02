@@ -54,7 +54,7 @@ export default class Footer extends Vue {
     }
   }
   mounted() {
-    console.debug("RUN_ID:" + process.env.VUE_APP_RUN_ID);
+    //console.debug("RUN_ID:" + process.env.VUE_APP_RUN_ID);
     this.runId = process.env.VUE_APP_RUN_ID;
   }
 }

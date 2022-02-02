@@ -47,11 +47,6 @@ export default class AddHistoryBtn extends Vue {
   dialog = false;
   btnLoading = false;
   updateUrl = "";
-  logObject(obj: any): any {
-    console.log("testesste");
-    console.log(obj);
-    return obj;
-  }
   addHistory() {
     this.btnLoading = true;
     axios

@@ -90,7 +90,8 @@ export default class AddHistoryBtn extends Vue {
 <style>
 #newButton {
   position: fixed;
-  bottom: 5%;
+  bottom: 8%;
   right: 2%;
+  z-index: 200;
 }
 </style>

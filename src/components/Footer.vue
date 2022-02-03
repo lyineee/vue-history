@@ -2,28 +2,33 @@
   <v-footer :app="!isMobile()" padless :elevation="24">
     <v-row justify="center" no-gutters>
       <v-col class="spacer" cols="12"></v-col>
-      <v-col class="text-center build-id-col" cols="3">
+      <v-col class="text-center build-id-col" sm="4" cols="6">
         <strong>构建ID：</strong>
-        <div class="id-link" @click="toGithubAction">{{ runId }}</div>
+        <a
+          class="id-link"
+          :href="projectUrl + `/actions/runs/${runId}`"
+          target="_blank"
+          >{{ runId }}</a
+        >
       </v-col>
-      <v-col class="text-center" cols="6">
+      <v-col class="text-center" sm="4" cols="12" order-sm="0" order="last">
         {{ new Date().getFullYear() }} — <strong>Lyine</strong>
       </v-col>
-      <v-col class="text-center build-id-col" cols="3">
-        <div @click="toGithub">
-          <svg
-            class="icon-link"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            :fill="dark ? 'white' : 'black'"
-          >
+      <v-col class="text-center build-id-col" sm="4" cols="6">
+        <svg
+          class="icon-link"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          :fill="dark ? 'white' : 'black'"
+        >
+          <a :href="projectUrl" target="_blank">
             <path
               d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
             />
-          </svg>
-        </div>
+          </a>
+        </svg>
       </v-col>
     </v-row>
   </v-footer>
@@ -34,16 +39,10 @@ import { Vue, Component } from "vue-property-decorator";
 
 @Component({})
 export default class Footer extends Vue {
-  runId?: string;
+  runId = process.env.VUE_APP_RUN_ID;
   projectUrl = "https://github.com/lyineee/vue-history";
   get dark(): boolean {
     return this.$vuetify.theme.dark;
-  }
-  toGithub() {
-    window.open(this.projectUrl, "_blank")?.focus();
-  }
-  toGithubAction() {
-    window.open(this.projectUrl + `/actions/runs/${this.runId}`, "_blank")?.focus();
   }
   isMobile() {
     switch (this.$vuetify.breakpoint.name) {
@@ -53,14 +52,10 @@ export default class Footer extends Vue {
         return false;
     }
   }
-  mounted() {
-    //console.debug("RUN_ID:" + process.env.VUE_APP_RUN_ID);
-    this.runId = process.env.VUE_APP_RUN_ID;
-  }
 }
 </script>
 
-<style>
+<style lang="scss">
 .spacer {
   height: 0.5em;
 }
@@ -69,7 +64,9 @@ export default class Footer extends Vue {
 }
 .id-link {
   display: inline;
-  text-decoration: underline;
   cursor: pointer;
+  &:link {
+    color: black;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AppBar />
+    <AppBar @toggletheme="toggleTheme()" />
     <v-main>
       <LoginDialog />
       <HistoryGroup />
@@ -36,6 +36,14 @@ export default class App extends Vue {
         this.$vuetify.theme.dark = false;
         break;
     }
+  }
+  toggleTheme() {
+    if (this.colorScheme == "dark") {
+      this.colorScheme = "light";
+    } else {
+      this.colorScheme = "dark";
+    }
+    this.onColorSchemeChange();
   }
   mounted() {
     if (

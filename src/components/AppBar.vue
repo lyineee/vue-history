@@ -35,7 +35,7 @@
       <v-list>
         <v-list-item @click="logout()" v-if="!edit">
           <v-list-item-title>退出登录</v-list-item-title>
-          <v-icon right>mdi-logout</v-icon>
+          <v-icon right style="margin-right: -1px;">mdi-logout</v-icon>
         </v-list-item>
         <v-list-item @click="toggleDarkMode()" v-if="!edit">
           <v-list-item-title>主题</v-list-item-title>
@@ -51,7 +51,7 @@
     </v-menu>
     <v-expand-x-transition>
       <v-btn icon v-if="!isMobile() && !edit" @click="logout()">
-        <v-icon>mdi-logout</v-icon>
+        <v-icon style="margin-right: -2px;">mdi-logout</v-icon>
       </v-btn>
     </v-expand-x-transition>
     <v-btn icon v-if="!isMobile()" @click="toggleDarkMode()">

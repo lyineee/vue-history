@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-history
+  labels:
+    app: vue-history
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vue-history
+  template:
+    metadata:
+      labels:
+        app: vue-history
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          volumeMounts:
+            - name: config-vol
+              mountPath: /etc/nginx/conf.d
+            - name: static-file-vol
+              mountPath: /usr/share/nginx/html
+        - name: static-file-sidecar
+          image: lyine/vue-history-k8s-sidecar:0.0.1
+          volumeMounts:
+            - name: static-file-vol
+              mountPath: /usr/share/nginx/html
+              
+      volumes:
+        - name: config-vol
+          configMap:
+            name: vue-history-nginx-cm
+        - name: static-file-vol
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue-history-svc
+spec:
+  selector:
+    app: vue-history
+  ports:
+    - port: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vue-history-ingress
+spec:
+  rules:
+    - host: history.lyine.pw
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vue-history
+                port:
+                  number: 80
